@@ -1,3 +1,7 @@
+---
+description: Review changed code for reuse, quality, and efficiency with 3 parallel agents, then fix issues found. Use after making changes to clean up before committing.
+---
+
 # Simplify: Code Review and Cleanup
 
 Review all changed files for reuse, quality, and efficiency. Fix any issues found.
