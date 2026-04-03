@@ -46,8 +46,26 @@ Review the same changes for efficiency:
 6. **Memory**: unbounded data structures, missing cleanup, event listener leaks
 7. **Overly broad operations**: reading entire files when only a portion is needed, loading all items when filtering for one
 
-## Phase 3: Fix Issues
+## Phase 3: Validate and Triage
 
-Wait for all three agents to complete. Aggregate their findings and fix each issue directly. If a finding is a false positive or not worth addressing, note it and move on — do not argue with the finding, just skip it.
+Wait for all three agents to complete. Aggregate all findings into a single list, then **critically assess each one before making any changes**:
 
-When done, briefly summarize what was fixed (or confirm the code was already clean).
+1. **Verify the finding is accurate** — Does the agent correctly understand the code, the API, and the runtime context? Agents frequently overstate severity or misunderstand framework constraints.
+2. **Confirm the fix wouldn't regress** — Would addressing this weaken type safety, remove useful context, break an API contract, or introduce a different problem? A fix that trades one issue for another is not a fix.
+3. **Assess actual impact** — Is this a real problem in practice, or theoretical? "Unbounded cache" on a map that holds 1-2 entries is noise, not a memory leak.
+
+Classify each finding:
+- **Fix** — Legitimate improvement with no regressions
+- **Skip** — False positive, overstated severity, or fix would regress
+
+Present the triage table to the user before proceeding.
+
+## Phase 4: Apply Fixes
+
+Apply only the findings classified as **Fix**. For each change:
+
+- Preserve existing type safety — do not widen types (e.g. `any`) to enable a refactor
+- Preserve useful comments — orientation comments for someone landing cold have value
+- Test that the code still works after changes
+
+When done, summarize what was fixed, what was skipped and why.
