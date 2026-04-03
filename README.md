@@ -62,6 +62,7 @@ Located in `.pi/extensions/`.
 | Extension | Description |
 |-----------|-------------|
 | `task-system.ts` | TaskCreate, TaskList, TaskGet, TaskUpdate, TaskClaim, TaskReset — file-based storage with dependency resolution and atomic claiming for swarm coordination |
+| `minimal-mode.ts` | Condensed tool output rendering — `ctrl+o` toggles between minimal (tool call only) and full output for bash, read, edit, write, find, grep, ls |
 
 ## Packages
 
