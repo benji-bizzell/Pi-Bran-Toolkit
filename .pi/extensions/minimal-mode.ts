@@ -3,8 +3,15 @@
  *
  * ctrl+o cycles: Full → Standard → Minimal → Full
  *
- * Detects each ctrl+o toggle (a flip in the `expanded` boolean from Pi)
- * and advances an internal mode counter via context.state.
+ * - Full:     Complete untruncated output
+ * - Standard: First 8 lines + count of remaining
+ * - Minimal:  Tool call only, no output (or just a summary count)
+ *
+ * Pi's ctrl+o only provides a boolean `expanded` toggle. We detect each
+ * flip via context.state and advance an internal mode counter to get
+ * three states from a two-state input.
+ *
+ * Usage: Place in .pi/extensions/ for auto-discovery.
  */
 
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
@@ -93,8 +100,6 @@ function getTextContent(result: any): string | null {
 
 // ── Tool cache ───────────────────────────────────────────────────────────
 
-const toolCache = new Map<string, Record<string, any>>();
-
 function createBuiltInTools(cwd: string) {
 	return {
 		read: createReadTool(cwd),
@@ -104,8 +109,13 @@ function createBuiltInTools(cwd: string) {
 		find: createFindTool(cwd),
 		grep: createGrepTool(cwd),
 		ls: createLsTool(cwd),
-	} as Record<string, any>;
+	};
 }
+
+type BuiltInTools = ReturnType<typeof createBuiltInTools>;
+type ToolName = keyof BuiltInTools;
+
+const toolCache = new Map<string, BuiltInTools>();
 
 function getBuiltInTools(cwd: string) {
 	let tools = toolCache.get(cwd);
@@ -119,7 +129,7 @@ function getBuiltInTools(cwd: string) {
 // ── Tool specs ───────────────────────────────────────────────────────────
 
 interface ToolSpec {
-	name: string;
+	name: ToolName;
 	renderCall: (args: any, theme: any, mode: number) => string;
 	renderResult: (text: string, mode: number, theme: any) => Text;
 }
