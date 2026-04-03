@@ -82,6 +82,10 @@ EOF
 ```
 
 Prefixes: `research`, `spec`, `test`, `feat`, `fix`, `docs`
+
+## Development Note
+
+This repo IS the toolkit. Changes to `.pi/` only take effect globally after running `./install.sh`. Always re-run it after modifying agents, skills, extensions, or packages.
 # Feature Organization Rules
 
 This document describes the feature-centric organization system used in this project.
