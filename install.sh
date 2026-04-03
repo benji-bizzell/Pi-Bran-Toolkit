@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Install Pi Agent toolkit into global Pi config (~/.pi/agent/)
+# Install Pi Bran Toolkit into global Pi config (~/.pi/agent/)
 # Run from the repo root after cloning.
 
 PI_GLOBAL="${PI_CODING_AGENT_DIR:-$HOME/.pi/agent}"
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-echo "Installing Pi Agent toolkit..."
+echo "Installing Pi Bran Toolkit..."
 echo "  Source: $REPO_DIR"
 echo "  Target: $PI_GLOBAL"
 echo ""
